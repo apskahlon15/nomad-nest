@@ -1,43 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NomadNest</title>
-  </head>
-  <body>
-    <h2>Edit Listing</h2>
+<% layout("/layouts/boilerplate") %>
 
-    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
-      <input type="text" name="listing[title]" value="<%= listing.title %>" />
-      <br /><br />
+<h2>Edit Listing</h2>
 
-      <textarea name="listing[description]">
+<form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+  <input type="text" name="listing[title]" value="<%= listing.title %>" />
+  <br /><br />
+
+  <textarea name="listing[description]" rows="5" cols="40">
 <%= listing.description %></textarea
-      >
-      <br /><br />
+  >
+  <br /><br />
 
-      <input type="text" name="listing[image]" value="<%= listing.image %>" />
-      <br /><br />
+  <input type="text" name="listing[image]" value="<%= listing.image %>" />
+  <br /><br />
 
-      <input type="text" name="listing[price]" value="<%= listing.price %>" />
-      <br /><br />
+  <input type="text" name="listing[price]" value="<%= listing.price %>" />
+  <br /><br />
 
-      <input
-        type="text"
-        name="listing[country]"
-        value="<%= listing.country %>"
-      />
-      <br /><br />
+  <input type="text" name="listing[country]" value="<%= listing.country %>" />
+  <br /><br />
 
-      <input
-        type="text"
-        name="listing[location]"
-        value="<%= listing.location %>"
-      />
-      <br /><br />
+  <input type="text" name="listing[location]" value="<%= listing.location %>" />
+  <br /><br />
 
-      <button type="submit">EDIT Listing</button>
-    </form>
-  </body>
-</html>
+  <button type="submit">EDIT Listing</button>
+</form>

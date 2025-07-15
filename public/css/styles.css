@@ -1,0 +1,22 @@
+/* Global */
+body {
+  background-color: antiquewhite;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  height: 5rem;
+}
+.nav-link {
+  color: #222222 !important;
+}
+
+/* Footer */
+footer {
+  height: 6rem;
+  margin-top: auto;
+  overflow: hidden;
+}
