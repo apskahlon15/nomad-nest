@@ -20,3 +20,21 @@ footer {
   margin-top: auto;
   overflow: hidden;
 }
+
+
+.card-text {
+    color: #222222 !important;
+}
+
+.card{
+    opacity: 1;
+}
+
+ .card:hover {
+    transform: scale(1.03);
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0.9;
+
+  }
+  

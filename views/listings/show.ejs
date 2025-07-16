@@ -7,6 +7,7 @@
       <li>$<%= listing.price %></li>
       <li><%= listing.location %></li>
       <li><%= listing.country %></li>
+      <li><% listing.image %></li>
     </ul>
 
     <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">

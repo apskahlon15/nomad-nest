@@ -34,6 +34,7 @@ app.get("/listings/new", (req, res) => {
 // INDEX route — Show all listings
 app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});
+  console.log(allListings);
   res.render("listings/index", { allListings });
 });
 

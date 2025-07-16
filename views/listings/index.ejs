@@ -1,20 +1,55 @@
 <% layout("/layouts/boilerplate") %>
-  <body>
-    <h1>All Listings</h1>
+<body>
+  <h1 class="text-center my-4 text-black">All Listings</h1>
 
-    <!-- <form method="GET" action="/listings/new">
-      <button>Create a new post</button>
-    </form> -->
+  <div class="container">
+    <div class="row">
+      <% for (let listing of allListings) { %>
+      <div class="col-md-4 mb-2 d-flex align-items-stretch">
+        <a
+          href="/listings/<%= listing._id %>"
+          class="text-decoration-none text-black w-100"
+        >
+          <!-- Adjust card width and height here -->
+          <div
+            class="card h-100 text-center border-0"
+            style="width: 280px; height: 320px"
+          >
+            <% if (listing.url) { %>
+            <!-- Adjust image width and height here -->
+            <img
+              src="<%= listing.url %>"
+              class="card-img-top mx-auto"
+              alt="<%= listing.title %>"
+              style="
+                width: 280px;
+                height: 320px;
+                object-fit: cover;
+                border-radius: 25px;
+              "
+            />
+            <% } else { %>
+            <!-- Adjust image width and height here -->
+            <img
+              src="https://via.placeholder.com/300x200?text=No+Image"
+              class="card-img-top mx-auto"
+              alt="No image available"
+              style="width: 300px; height: 400px; object-fit: cover"
+            />
+            <% } %>
+            <div class="card-body d-flex flex-column text-start">
+              <h5 class="card-title"><%= listing.title %></h5>
 
-    <ul>
-      <% for(let listing of allListings){%>
-      <li><a href="/listings/<%= listing._id %>"><%= listing.title %></a></li>
-      <% }%>
-    </ul>
-    <ul>
-      <% for(let listing of allListings){%>
-      <li><a href="/listings/<%= listing._id %>"><%= listing.title %></a></li>
-      <% }%>
-    </ul>
-  </body>
-</html>
+              <p class="card-text mb-2">
+                <%= listing.location %>, <%= listing.country %><br />
+                $<%= listing.price %> /night
+              </p>
+            </div>
+          </div>
+          <!-- End of card -->
+        </a>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</body>
