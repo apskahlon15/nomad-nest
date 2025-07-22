@@ -26,15 +26,18 @@ footer {
     color: #222222 !important;
 }
 
-.card{
+.card-index{
     opacity: 1;
 }
 
- .card:hover {
+ .card-index:hover {
     transform: scale(1.03);
     
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0.9;
 
   }
+
+ 
+
   

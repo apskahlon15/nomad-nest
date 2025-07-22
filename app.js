@@ -7,6 +7,7 @@ const app = express();
 const port = 3000;
 const MONGO_URL = "mongodb://127.0.0.1:27017/nomad-nest";
 
+app.use(express.urlencoded({ extended: true }));
 const ejsMate = require("ejs-mate");
 
 const methodOverride = require("method-override");
@@ -14,7 +15,6 @@ app.use(methodOverride("_method"));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true }));
 
 app.engine("ejs", ejsMate);
 
@@ -47,7 +47,7 @@ app.get("/listings/:id", async (req, res) => {
 });
 
 app.post("/listings", async (req, res) => {
-  const newListing = new Listing(req.body.listing);
+  const newListing = new Listing(req.body);
   await newListing.save();
   res.redirect("/listings");
 });
