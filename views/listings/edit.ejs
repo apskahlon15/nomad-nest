@@ -2,7 +2,12 @@
 
 <h2>Edit Listing</h2>
 
-<form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+<form
+  method="POST"
+  action="/listings/<%= listing._id %>?_method=PUT"
+  class="needs-validation"
+  novalidate
+>
   <div class="form-row col-8 offset-2">
     <div class="form-group mb-3">
       <label for="title">Title</label>
@@ -14,6 +19,8 @@
         value="<%= listing.title %>"
         required
       />
+      <div class="valid-feedback">Title is valid</div>
+      <div class="invalid-feedback">Please enter valid title</div>
     </div>
 
     <div class="form-group mb-3">
@@ -27,6 +34,8 @@
       >
 <%= listing.description %></textarea
       >
+      <div class="valid-feedback">Description looks good</div>
+      <div class="invalid-feedback">Enter a short description</div>
     </div>
 
     <div class="form-group mb-3">
@@ -48,7 +57,10 @@
         id="price"
         name="listing[price]"
         value="<%= listing.price %>"
+        required
       />
+      <div class="valid-feedback">Price looks good</div>
+      <div class="invalid-feedback">Please enter valid price</div>
     </div>
 
     <div class="form-group mb-3">
@@ -59,7 +71,10 @@
         id="country"
         name="listing[country]"
         value="<%= listing.country %>"
+        required
       />
+      <div class="valid-feedback">Country looks good</div>
+      <div class="invalid-feedback">Please enter country</div>
     </div>
 
     <div class="form-group mb-3">
@@ -70,7 +85,10 @@
         id="location"
         name="listing[location]"
         value="<%= listing.location %>"
+        required
       />
+      <div class="valid-feedback">Locations looks good</div>
+      <div class="invalid-feedback">Please enter location</div>
     </div>
 
     <button type="submit" class="btn btn-dark">Edit Listing</button>

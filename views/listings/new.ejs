@@ -2,7 +2,7 @@
 
 <h2 class="text-center mb-4">Create a new listing</h2>
 
-<form method="POST" action="/listings">
+<form method="POST" action="/listings" class="needs-validation" novalidate>
   <div class="form-row col-8 offset-2">
     <!-- Title -->
     <div class="form-group col-md-10 mb-3">
@@ -13,7 +13,10 @@
         id="title"
         name="title"
         placeholder="Enter title"
+        required
       />
+      <div class="valid-feedback">Title is valid</div>
+      <div class="invalid-feedback">Please enter valid title</div>
     </div>
 
     <!-- Description -->
@@ -25,7 +28,10 @@
         name="description"
         rows="3"
         placeholder="Enter description"
+        required
       ></textarea>
+      <div class="valid-feedback">Description looks good</div>
+      <div class="invalid-feedback">Enter a short description</div>
     </div>
 
     <!-- Image -->
@@ -50,7 +56,10 @@
           id="price"
           name="price"
           placeholder="Enter price"
+          required
         />
+        <div class="valid-feedback">Price looks good</div>
+        <div class="invalid-feedback">Please enter valid price</div>
       </div>
 
       <div class="col-md-6">
@@ -61,7 +70,10 @@
           id="country"
           name="country"
           placeholder="Enter country"
+          required
         />
+        <div class="valid-feedback">Country looks good</div>
+        <div class="invalid-feedback">Please enter country</div>
       </div>
     </div>
 
@@ -74,7 +86,10 @@
         id="location"
         name="location"
         placeholder="Enter location"
+        required
       />
+      <div class="valid-feedback">Locations looks good</div>
+      <div class="invalid-feedback">Please enter location</div>
     </div>
 
     <!-- Button -->

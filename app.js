@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
 const path = require("path");
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 
 const app = express();
 const port = 3000;
@@ -11,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 const ejsMate = require("ejs-mate");
 
 const methodOverride = require("method-override");
+const { nextTick } = require("process");
 app.use(methodOverride("_method"));
 
 app.set("view engine", "ejs");
@@ -27,43 +30,66 @@ app.get("/", (req, res) => {
 });
 
 //New Route
-app.get("/listings/new", (req, res) => {
-  res.render("listings/new");
-});
+
+app.get(
+  "/listings/new",
+  wrapAsync(async (req, res) => {
+    res.render("listings/new");
+  })
+);
 
 // INDEX route — Show all listings
-app.get("/listings", async (req, res) => {
-  const allListings = await Listing.find({});
-  console.log(allListings);
-  res.render("listings/index", { allListings });
-});
+app.get(
+  "/listings",
+  wrapAsync(async (req, res) => {
+    const allListings = await Listing.find({});
+    console.log(allListings);
+    res.render("listings/index", { allListings });
+  })
+);
 
 // Show route
 
-app.get("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/show", { listing });
-});
+app.get(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/show", { listing });
+  })
+);
 
-app.post("/listings", async (req, res) => {
-  const newListing = new Listing(req.body);
-  await newListing.save();
-  res.redirect("/listings");
-});
+app.post(
+  "/listings",
 
-app.post("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/show", { listing });
-});
+  wrapAsync(async (req, res, next) => {
+    if (!req.body.listing) {
+      throw new ExpressError(400, "Send Valid Data");
+    }
+    const newListing = new Listing(req.body);
+    await newListing.save();
+    res.redirect("/listings");
+  })
+);
 
-app.delete("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  let deletedListing = await Listing.findByIdAndDelete(id);
-  console.log(deletedListing);
-  res.redirect("/listings");
-});
+app.post(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/show", { listing });
+  })
+);
+
+app.delete(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    let deletedListing = await Listing.findByIdAndDelete(id);
+    console.log(deletedListing);
+    res.redirect("/listings");
+  })
+);
 // app.get("/testListing", async (req, res) => {
 //   let sampleListing = new Listing({
 //     title: "Example",
@@ -78,22 +104,37 @@ app.delete("/listings/:id", async (req, res) => {
 //   res.send("Test done successfully");
 // });
 
-app.get("/listings/:id/edit", async (req, res) => {
-  let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/edit", { listing });
-});
+app.get(
+  "/listings/:id/edit",
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/edit", { listing });
+  })
+);
 
-app.put("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, req.body.listing);
-  res.redirect(`/listings/${id}`);
-});
+app.put(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    await Listing.findByIdAndUpdate(id, req.body.listing);
+    res.redirect(`/listings/${id}`);
+  })
+);
 
 // Main async function
 async function main() {
   await mongoose.connect(MONGO_URL);
   console.log("✅ Successfully connected to the Database");
+
+  // app.all("*", (req, res, next) => {
+  //   next(new ExpressError(404, "Page not found!"));
+  // }); // Facing error here
+
+  app.use((err, req, res, next) => {
+    let { statusCode = 500, message = "Something went wrong" } = err;
+    res.status(statusCode).send(message);
+  });
 
   app.listen(port, () => {
     console.log(`🚀 App is listening on http://localhost:${port}`);
