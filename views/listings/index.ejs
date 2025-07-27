@@ -15,10 +15,10 @@
             class="card-index h-100 text-center border-0"
             style="width: 280px; height: 320px"
           >
-            <% if (listing.url) { %>
+            <% if (listing.image.url) { %>
             <!-- Adjust image width and height here -->
             <img
-              src="<%= listing.url %>"
+              src="<%= listing.image.url %>"
               class="card-img-top mx-auto"
               alt="<%= listing.title %>"
               style="

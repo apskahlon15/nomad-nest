@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Review = require("./review");
-const { ref } = require("joi");
 const Schema = mongoose.Schema;
 
 const DEFAULT_IMAGE_URL =
@@ -12,12 +11,14 @@ const listingSchema = new Schema({
     required: true,
   },
   description: String,
-  url: {
-    type: String,
-    default: DEFAULT_IMAGE_URL,
-    validate: {
-      validator: (v) => typeof v === "string" && v.trim().length > 0,
-      message: "URL cannot be empty",
+  image: {
+    url: {
+      type: String,
+      default: DEFAULT_IMAGE_URL,
+      validate: {
+        validator: (v) => typeof v === "string" && v.trim().length > 0,
+        message: "Image URL cannot be empty",
+      },
     },
   },
   price: Number,
@@ -32,6 +33,5 @@ listingSchema.post("findOneAndDelete", async (listing) => {
   }
 });
 
-const Listing = mongoose.model("listing", listingSchema);
-
+const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;

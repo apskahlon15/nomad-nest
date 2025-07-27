@@ -5,7 +5,11 @@
 </div>
 
 <div class="card mx-auto border-0" style="width: 30rem">
-  <img class="rounded-5" src="<%= listing.url %>" alt="<%= listing.title %>" />
+  <img
+    class="rounded-5"
+    src="<%= listing.image.url %>"
+    alt="<%= listing.title %>"
+  />
   <div class="card-body">
     <ul>
       <li><strong>Description:</strong> <%= listing.description %></li>
