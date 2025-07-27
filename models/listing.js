@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const Review = require("./review");
+const { ref } = require("joi");
 const Schema = mongoose.Schema;
 
 const DEFAULT_IMAGE_URL =
@@ -21,14 +23,13 @@ const listingSchema = new Schema({
   price: Number,
   location: String,
   country: String,
+  reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
 });
 
-// Pre-save hook to replace empty or whitespace-only url with default
-listingSchema.pre("save", function (next) {
-  if (!this.url || this.url.trim() === "") {
-    this.url = DEFAULT_IMAGE_URL;
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing) {
+    await Review.deleteMany({ _id: { $in: listing.reviews } });
   }
-  next();
 });
 
 const Listing = mongoose.model("listing", listingSchema);

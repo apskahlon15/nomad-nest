@@ -1,17 +1,13 @@
 <% layout("/layouts/boilerplate") %>
 
-<h2>Listing Details</h2>
+<div class="container text-center">
+  <h2><%= listing.title %></h2>
+</div>
 
 <div class="card mx-auto border-0" style="width: 30rem">
-  <img
-    class="rounded-5"
-    src="<%= listing.url %>"
-    class="card-img-top"
-    alt="<%= listing.title %>"
-  />
+  <img class="rounded-5" src="<%= listing.url %>" alt="<%= listing.title %>" />
   <div class="card-body">
     <ul>
-      <li><strong>Title:</strong> <%= listing.title %></li>
       <li><strong>Description:</strong> <%= listing.description %></li>
       <li><strong>Price:</strong> $<%= listing.price %></li>
       <li><strong>Location:</strong> <%= listing.location %></li>
@@ -20,27 +16,106 @@
   </div>
 </div>
 
-<form
-  method="POST"
-  action="/listings/<%= listing._id %>?_method=DELETE"
-  style="margin-top: 15px"
->
-  <div class="text-center my-4">
-    <form
-      method="POST"
-      action="/listings/<%= listing._id %>?_method=DELETE"
-      class="d-inline"
+<div class="text-center my-4">
+  <form
+    method="POST"
+    action="/listings/<%= listing._id %>?_method=DELETE"
+    class="d-inline"
+  >
+    <button
+      type="submit"
+      class="btn border border-danger text-danger bg-white rounded-1"
     >
-      <button
-        type="submit"
-        class="btn border border-danger text-danger bg-white rounded-1"
-      >
-        Delete Listing
-      </button>
-    </form>
+      Delete Listing
+    </button>
+  </form>
 
-    <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark ms-2">
-      Edit this listing
-    </a>
+  <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark ms-2">
+    Edit this listing
+  </a>
+</div>
+
+<hr />
+
+<!-- ✅ Review Form Start -->
+<div class="container my-4" style="width: 30rem">
+  <h5>Add a Review</h5>
+  <form
+    method="POST"
+    action="/listings/<%= listing._id %>/reviews"
+    novalidate
+    class="needs-validation"
+  >
+    <div class="mb-3">
+      <label for="reviewContent" class="form-label">Review</label>
+      <textarea
+        name="review[content]"
+        class="form-control"
+        id="reviewContent"
+        rows="8"
+        required
+      ></textarea>
+      <div class="valid-feedback">Description is great</div>
+      <div class="invalid-feedback">It looks empty</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="rating" class="form-label">Rating (1–5)</label>
+      <input
+        type="number"
+        name="review[rating]"
+        class="form-control"
+        id="rating"
+        min="1"
+        max="5"
+        required
+      />
+      <div class="valid-feedback">Looks Good</div>
+      <div class="invalid-feedback">Please select a rating</div>
+    </div>
+    <button type="submit" class="btn btn-dark">Submit Review</button>
+    <hr />
+  </form>
+
+  <!-- ✅ Posted Reviews Section -->
+  <h3>All Reviews</h3>
+  <% if (listing.reviews.length === 0) { %>
+  <p class="text-muted">No reviews yet. Be the first to add one!</p>
+  <% } else { %>
+  <div class="container" style="max-width: 30rem">
+    <div class="row g-3">
+      <% listing.reviews.forEach((review) => { %>
+      <div class="col-6">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body d-flex flex-column p-3">
+            <p class="card-text mb-3" style="font-size: 0.9rem; color: #444">
+              <%= review.content %>
+            </p>
+            <div
+              class="d-flex justify-content-between align-items-center mt-auto"
+              style="font-size: 0.8rem; color: #888"
+            >
+              <span>Rating: <%= review.rating %> / 5</span>
+              <span
+                ><%= new Date(review.createdAt).toLocaleDateString() %></span
+              >
+            </div>
+            <!-- Delete Review Button -->
+            <form
+              method="POST"
+              action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+              class="mt-3"
+            >
+              <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                Delete Review
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
   </div>
-</form>
+  <% } %>
+</div>
+<!-- ✅ Review Form End -->
