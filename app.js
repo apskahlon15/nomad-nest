@@ -25,6 +25,7 @@ app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 
 app.use(express.static(path.join(__dirname, "/public")));
+const listing = require("./routes/listing.js");
 
 // Root route
 app.get("/", (req, res) => {
@@ -40,15 +41,8 @@ app.get(
     res.render("listings/new");
   })
 );
-const validateListing = (req, res, next) => {
-  let { error } = listingSchema.validate(req.body);
-  if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(400, errMsg);
-  } else {
-    next();
-  }
-};
+
+app.use("/listings", listing);
 
 const validateReview = (req, res, next) => {
   let { error } = reviewSchema.validate(req.body);
@@ -59,27 +53,6 @@ const validateReview = (req, res, next) => {
     next();
   }
 };
-
-// INDEX route — Show all listings
-app.get(
-  "/listings",
-  wrapAsync(async (req, res) => {
-    const allListings = await Listing.find({});
-    console.log(allListings);
-    res.render("listings/index", { allListings });
-  })
-);
-
-// Show route
-
-app.get(
-  "/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
-    res.render("listings/show", { listing });
-  })
-);
 
 app.post(
   "/listings",
@@ -103,18 +76,6 @@ app.post(
     let { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/show", { listing });
-  })
-);
-
-// Delete Route
-
-app.delete(
-  "/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
-    res.redirect("/listings");
   })
 );
 
