@@ -15,10 +15,6 @@ const listingSchema = new Schema({
     url: {
       type: String,
       default: DEFAULT_IMAGE_URL,
-      validate: {
-        validator: (v) => typeof v === "string" && v.trim().length > 0,
-        message: "Image URL cannot be empty",
-      },
     },
   },
   price: Number,
