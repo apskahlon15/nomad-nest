@@ -12,6 +12,7 @@ body {
 }
 .nav-link {
   color: #222222 !important;
+  
 }
 
 /* Footer */
@@ -40,4 +41,38 @@ footer {
 
  
 
+  /* Maps*/
+  #map { width: 600px;
+  height: 80vh;}
+
+.nav-link:hover {
   
+border: 1px solid black;          
+border-radius: 20px;            
+
+
+
+}
+
+/* Pagination links text color */
+.pagination .page-link {
+  color: black; /* default link color */
+}
+
+/* Pagination links on hover */
+.pagination .page-link:hover {
+  color: black;
+  background-color: #e9ecef; 
+}
+
+/* Active page */
+.pagination .page-item.active .page-link {
+  background-color: black; /* active bg color */
+  color: white;            /* active text color */
+  border-color: black;
+}
+
+/* Previous/Next disabled link color */
+.pagination .page-item.disabled .page-link {
+  color: #6c757d; /* muted grey */
+}

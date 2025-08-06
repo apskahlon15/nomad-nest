@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+}
+
+console.log(process.env.SECRET);
+
 const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
@@ -8,6 +14,9 @@ const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema, reviewSchema } = require("./schema.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
 
 const app = express();
 const port = 3000;
@@ -40,15 +49,42 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+// Initialize Passport to use in the app (adds passport functionality to Express)
+app.use(passport.initialize());
+
+// Enables persistent login sessions (used with express-session)
+app.use(passport.session());
+
+// Set up the local strategy using the User model's authentication method (usually from passport-local-mongoose)
+passport.use(new LocalStrategy(User.authenticate()));
+
+// Defines how user data is stored in the session (provided by passport-local-mongoose)
+passport.serializeUser(User.serializeUser());
+
+// Defines how user data is retrieved from the session (provided by passport-local-mongoose)
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user;
   next();
 });
+
 //Routes
 
-const listing = require("./routes/listing.js");
-const review = require("./routes/review.js");
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
+app.get("/demouser", async (req, res) => {
+  let fakeUser = new User({
+    email: "student@gmail.com",
+    username: "teststudent123",
+  });
+  let registeredUser = await User.register(fakeUser, "helloworld");
+  console.log(registeredUser);
+});
 
 // Root route
 app.get("/", (req, res) => {
@@ -56,17 +92,10 @@ app.get("/", (req, res) => {
   res.send("Welcome to the root route!");
 });
 
-// New listing page route
-app.get(
-  "/listings/new",
-  wrapAsync(async (req, res) => {
-    res.render("listings/new");
-  })
-);
-
 // Mount routers
-app.use("/listings", listing);
-app.use("/listings/:id/reviews", review);
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/", userRouter);
 
 // Review validation middleware (if needed in app-level, otherwise handled in router)
 const validateReview = (req, res, next) => {

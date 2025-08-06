@@ -2,7 +2,13 @@
 
 <h2 class="text-center mb-4">Create a new listing</h2>
 
-<form method="POST" action="/listings" class="needs-validation" novalidate>
+<form
+  method="POST"
+  action="/listings"
+  class="needs-validation"
+  novalidate
+  enctype="multipart/form-data"
+>
   <div class="form-row col-8 offset-2">
     <!-- Title -->
     <div class="form-group col-md-10 mb-3">
@@ -35,14 +41,15 @@
     </div>
 
     <!-- Image -->
+
     <div class="form-group col-md-10 mb-3">
-      <label for="image">Image Link</label>
+      <label for="image">Upload Image</label>
       <input
-        type="text"
+        type="file"
         class="form-control"
         id="image"
-        name="listing[image][url]"
-        placeholder="Enter image link or leave empty to use default"
+        name="listing[image]"
+        required
       />
     </div>
 
