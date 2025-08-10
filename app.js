@@ -102,6 +102,9 @@ app.get("/search", async (req, res) => {
     res.redirect("/listings");
   }
 });
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 // Routers
 const listingRouter = require("./routes/listing.js");
