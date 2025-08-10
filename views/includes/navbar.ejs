@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/styles.css" />
 <nav
   class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top"
 >
@@ -34,33 +35,98 @@
         role="search"
       >
         <input
-          class="form-control flex-grow-1"
+          class="form-control flex-grow-1 rounded-5"
           type="search"
           placeholder="Search listings..."
           aria-label="Search"
           name="q"
           required
         />
-        <button class="btn btn-dark ms-2 rounded-5 px-3 py-2" type="submit">
+        <button
+          class="btn btn-dark rounded-5 ms-2 px-3 py-2 d-flex align-items-center justify-content-center fw-semibold"
+          type="submit"
+        >
           Search
         </button>
       </form>
 
       <!-- Right Links -->
       <div class="navbar-nav ms-lg-auto">
-        <a class="nav-link" href="/listings/new">New listing</a>
+        <a class="nav-link" href="/listings/new">New Listing</a>
+
         <% if (!currentUser) { %>
-        <a class="btn btn-style me-2 mt-2 mt-lg-0 px-2 py-2" href="/signup"
-          >Sign up</a
+        <!-- Sign Up Button -->
+        <a
+          class="btn auth-buttons btn-dark rounded-5 ms-lg-2 px-3 py-2 d-flex align-items-center justify-content-center mt-2 mt-lg-0"
+          href="/signup"
         >
-        <a class="btn btn-style mt-2 mt-lg-0" href="/login">Log in</a>
+          Sign up
+        </a>
+
+        <!-- Log In Button -->
+        <a
+          class="btn auth-buttons btn-dark rounded-5 ms-2 px-3 py-2 d-flex align-items-center justify-content-center"
+          href="/login"
+        >
+          Log in
+        </a>
         <% } else { %>
         <span class="nav-link disabled mt-2 mt-lg-0">
           Welcome, <%= currentUser.username ? currentUser.username : "User" %>
         </span>
-        <a class="nav-link mt-2 mt-lg-0" href="/logout">Log out</a>
+        <a
+          class="btn auth-buttons btn-dark rounded-5 ms-2 px-3 py-2 d-flex align-items-center justify-content-center fw-semibold"
+          href="/logout"
+          >Log out</a
+        >
         <% } %>
       </div>
     </div>
   </div>
 </nav>
+
+<style>
+  /* Keep desktop untouched */
+  @media (max-width: 991px) {
+    /* Stack nav items neatly except the auth buttons */
+    .navbar-nav {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* Keep search bar as it is */
+    form[role="search"] {
+      width: 100% !important;
+      margin-bottom: 0.75rem; /* space below search */
+    }
+
+    /* Auth buttons in one row */
+    .navbar-nav .auth-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem; /* space between buttons */
+      width: 100%;
+    }
+    .auth-buttons {
+      background-color: #f8f9fa !important;
+      border: none;
+      margin-top: 1.2rem;
+      text-align: left;
+      color: black;
+      display: flex; /* arrange buttons side by side */
+      gap: 0.75rem; /* consistent space between buttons */
+      padding: 0; /* reset container padding */
+    }
+
+    /* Style buttons without black background */
+    .navbar-nav .auth-buttons .btn {
+      flex: 1; /* equal width */
+      background: transparent !important;
+      color: #000 !important;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 0;
+    }
+  }
+</style>

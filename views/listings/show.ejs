@@ -194,15 +194,18 @@
   <h3>Where You will be</h3>
   <div id="map"></div>
 </div>
+
+<div id="map"></div>
+
 <script>
-  let map_token = "<%= process.env.MAP_TOKEN%>";
+  let map_token = "<%= process.env.MAP_TOKEN %>";
   mapboxgl.accessToken = map_token;
 
   const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/streets-v12",
     zoom: 10,
-    center: coordinates, // [Long,Lati]
+    center: coordinates, // [Long, Lat]
     projection: "mercator",
   });
 
@@ -214,6 +217,11 @@
 
   const marker = new mapboxgl.Marker({ color: "#e63946" })
     .setLngLat(coordinates)
-    .setPopup(popup) // ← Popup added here
+    .setPopup(popup)
     .addTo(map);
+
+  // Resize map on window resize
+  window.addEventListener("resize", () => {
+    map.resize();
+  });
 </script>
