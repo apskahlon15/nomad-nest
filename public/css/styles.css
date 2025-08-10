@@ -1,18 +1,24 @@
-/* Global */
 body {
-  background-color: antiquewhite;
+  background-color: #f8f9fa;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding: 0;
+  margin: 0;
 }
 
 /* Navbar */
 .navbar {
-  height: 5rem;
+  height: 5rem; /* fixed height for navbar */
 }
+
 .nav-link {
   color: #222222 !important;
-  
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #000 !important; /* slightly darker on hover */
 }
 
 /* Footer */
@@ -22,57 +28,101 @@ footer {
   overflow: hidden;
 }
 
-
-.card-text {
-    color: #222222 !important;
-}
-
-.card-index{
-    opacity: 1;
-}
-
- .card-index:hover {
-    transform: scale(1.03);
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0.9;
-
-  }
-
- 
-
-  /* Maps*/
-  #map { width: 600px;
-  height: 80vh;}
-
-.nav-link:hover {
-  
-border: 1px solid black;          
-border-radius: 20px;            
-
-
-
-}
-
-/* Pagination links text color */
-.pagination .page-link {
-  color: black; /* default link color */
-}
-
-/* Pagination links on hover */
-.pagination .page-link:hover {
+.btn-style {
+  border: 1px solid black;  /* 1px solid border */
+  padding: 6px 15px;
+  border-radius: 30px;
+  font-weight: 600;
+  background-color: transparent;
   color: black;
-  background-color: #e9ecef; 
+  transition: all 0.3s ease;
+  margin-left: 10px;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-style:hover {
+  background-color: black !important;
+  color: white !important;
+  border-color: black;
+  transform: scale(1.05);
+  text-decoration: none;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 991px) { /* lg breakpoint and below */
+  .navbar-collapse {
+    background-color: #f8f9fa; /* same as bg-light background */
+    padding: 1rem; /* space inside the dropdown menu */
+  }
+}
+
+
+/* Card text color */
+.card-text {
+  color: #222222 !important;
+}
+
+/* Card index opacity and hover effect */
+.card-index {
+  opacity: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.card-index:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
+  
+}
+
+/* Map container */
+#map {
+  width: 600px;
+  height: 80vh;
+}
+
+/* Pagination container background */
+.pagination {
+  background-color: #fff; /* white background */
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Pagination items */
+.pagination .page-item .page-link {
+  color: #000; /* black text */
+  background-color: transparent; /* transparent by default */
+  border: none; /* remove border */
+  margin: 0 0.25rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 6px 12px;
+}
+
+/* Hover effect */
+.pagination .page-item .page-link:hover {
+  background-color: #ddd; /* light gray on hover */
+  color: #000;
 }
 
 /* Active page */
 .pagination .page-item.active .page-link {
-  background-color: black; /* active bg color */
-  color: white;            /* active text color */
-  border-color: black;
+  background-color: #000; /* black background */
+  color: #fff; /* white text */
+  font-weight: bold;
+  cursor: default;
+  pointer-events: none;
 }
 
-/* Previous/Next disabled link color */
+/* Disabled buttons (like prev on page 1) */
 .pagination .page-item.disabled .page-link {
-  color: #6c757d; /* muted grey */
+  color: #999;
+  pointer-events: none;
+  background-color: transparent;
+  cursor: default;
 }

@@ -1,35 +1,56 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="container">
-  <div class="text-center display-5 mt-5">
-    Returning Traveller? Welcome Back to NomadNest!
-  </div>
-  <div class="row mt-3">
-    <div class="col-6 offset-3">
-      <form action="/login" method="POST" class="needs-validation" novalidate>
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            name="username"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            name="password"
-            required
-          />
+<!-- Add top padding so content sits below navbar -->
+<div
+  class="container-fluid p-0"
+  style="padding-top: 70px; height: calc(100vh - 70px); margin: 0"
+>
+  <div class="row g-0" style="height: 100%">
+    <!-- Left side: Image -->
+    <div class="col-md-6 d-none d-md-block p-0" style="height: 100%; margin: 0">
+      <img
+        src="/images/photo.png"
+        alt="Travel"
+        style="width: 100%; height: 100%; object-fit: cover; display: block"
+      />
+    </div>
+
+    <!-- Right side: Login form -->
+    <div
+      class="col-12 col-md-6 d-flex align-items-center justify-content-center"
+      style="background-color: #fff; height: 100%; padding: 2rem; margin: 0"
+    >
+      <div class="w-75" style="max-width: 400px; padding: 0 1rem">
+        <div class="text-center display-5 mb-4">
+          Returning Traveller? Welcome Back to NomadNest!
         </div>
 
-        <button type="submit" class="btn btn-dark">Login</button>
-      </form>
+        <form action="/login" method="POST" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-dark w-100">Login</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

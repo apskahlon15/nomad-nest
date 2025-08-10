@@ -3,8 +3,10 @@
 >
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings">
-      <img src="/images/logo.png" alt="Logo" height="60" width="60" />
+      <img src="/images/logo.png" alt="Logo" height="50" width="50" />
     </a>
+
+    <!-- Mobile Toggle -->
     <button
       class="navbar-toggler"
       type="button"
@@ -16,21 +18,47 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- Navbar Content -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
+      <!-- Left Links -->
+      <div class="navbar-nav me-auto mb-2 mb-lg-0">
         <a class="nav-link" aria-current="page" href="/listings">Explore</a>
       </div>
 
-      <div class="navbar-nav ms-auto">
+      <!-- Search Form -->
+      <form
+        class="d-flex me-lg-3 w-50 w-lg-auto mb-3 mb-lg-0"
+        action="/search"
+        method="GET"
+        role="search"
+      >
+        <input
+          class="form-control flex-grow-1"
+          type="search"
+          placeholder="Search listings..."
+          aria-label="Search"
+          name="q"
+          required
+        />
+        <button class="btn btn-dark ms-2 rounded-5 px-3 py-2" type="submit">
+          Search
+        </button>
+      </form>
+
+      <!-- Right Links -->
+      <div class="navbar-nav ms-lg-auto">
         <a class="nav-link" href="/listings/new">New listing</a>
         <% if (!currentUser) { %>
-        <a class="nav-link" href="/signup"><b>Sign up</b></a>
-        <a class="nav-link" href="/login"><b>Log in</b></a>
-        <% } else { %>
-        <span class="nav-link disabled"
-          >Welcome, <%= currentUser.username %></span
+        <a class="btn btn-style me-2 mt-2 mt-lg-0 px-2 py-2" href="/signup"
+          >Sign up</a
         >
-        <a class="nav-link" href="/logout">Log out</a>
+        <a class="btn btn-style mt-2 mt-lg-0" href="/login">Log in</a>
+        <% } else { %>
+        <span class="nav-link disabled mt-2 mt-lg-0">
+          Welcome, <%= currentUser.username ? currentUser.username : "User" %>
+        </span>
+        <a class="nav-link mt-2 mt-lg-0" href="/logout">Log out</a>
         <% } %>
       </div>
     </div>
