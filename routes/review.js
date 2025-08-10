@@ -7,6 +7,7 @@ const { listingSchema, reviewSchema } = require("../schema.js");
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
 const reviewController = require("../controllers/review.js");
+const { isLoggedIn } = require("../middleware.js");
 
 const validateReview = (req, res, next) => {
   let { error } = reviewSchema.validate(req.body);
@@ -18,9 +19,20 @@ const validateReview = (req, res, next) => {
   }
 };
 
+// Redirect GET /listings/:id/reviews to listing page
+router.get("/", (req, res) => {
+  const listingId = req.params.id;
+  res.redirect(`/listings/${listingId}`);
+});
+
 // Delete review route
 router.delete("/:reviewId", wrapAsync(reviewController.destroyReview));
 
-router.post("/", validateReview, wrapAsync(reviewController.createReview));
+router.post(
+  "/",
+  isLoggedIn,
+  validateReview,
+  wrapAsync(reviewController.createReview)
+);
 
 module.exports = router;
